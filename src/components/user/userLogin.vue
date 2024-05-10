@@ -72,6 +72,7 @@ export default {
     }*/
     //store.state.uid = 1;
     store.state.gid = 1;
+    console.log(store.state.gid)
   }
 }
 </script>

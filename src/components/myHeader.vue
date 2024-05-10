@@ -10,41 +10,29 @@
       </el-icon>
       首页
     </el-menu-item>
-    <el-menu-item v-if="this.$store.state.gid" index="/problem">
+    <el-menu-item  index="/problem" @click="checkLogin('/problem')">
       <el-icon>
         <Files />
       </el-icon>
       题库
     </el-menu-item>
-    <el-menu-item v-if="this.$store.state.gid" index="/contest">
+    <el-menu-item index="/contest" @click="checkLogin('/contest')">
       <el-icon>
         <Trophy />
       </el-icon>
       作业考试
     </el-menu-item>
-    <el-menu-item v-if="this.$store.state.gid" index="/rank">
+    <el-menu-item  index="/rank" @click="checkLogin('/rank')">
       <el-icon>
         <Trophy />
       </el-icon>
       排行榜
     </el-menu-item>
-    <el-menu-item v-if="this.$store.state.gid" index="/submission">
+    <el-menu-item  index="/submission" @click="checkLogin('/submission')">
       <el-icon>
         <DataAnalysis />
       </el-icon>
       提交记录
-    </el-menu-item>
-    <el-menu-item v-if="!this.$store.state.gid" index="/user/login">
-      <el-icon>
-        <User />
-      </el-icon>
-      登录
-    </el-menu-item>
-    <el-menu-item v-if="!this.$store.state.gid" index="/user/reg">
-      <el-icon>
-        <CircleCheck />
-      </el-icon>
-      注册
     </el-menu-item>
     <el-sub-menu index="/user" v-if="this.$store.state.gid">
       <template #title>
@@ -80,6 +68,20 @@
         </el-menu-item>
       </span>
     </el-sub-menu>
+    <span style="margin-right: 150px;"></span>
+
+    <el-menu-item  v-if="!this.$store.state.gid" index="/user/login">
+      <el-icon>
+        <User />
+      </el-icon>
+      登录
+    </el-menu-item>
+    <el-menu-item v-if="!this.$store.state.gid" index="/user/reg">
+      <el-icon>
+        <CircleCheck />
+      </el-icon>
+      注册
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -113,9 +115,30 @@ export default {
         this.$store.state.uid = 0;
         this.$store.state.name = '/';
         this.$store.state.gid = 0;
+        location.reload();
       });
-      location.reload();
     },
+
+    checkLogin(index) {
+      if ((this.$store.state.gid === undefined || this.$store.state.gid === 0) && (index === "/contest" || index === "/rank" || index === "/problem" || index === "/submission")) {
+        console.log("没有登录")
+        this.$message({
+          message: '请先登录',
+          type: 'warning'
+        });
+        this.$router.push({ path: '/' }); // 重定向到首页
+      } else {
+        console.log("进入了push")
+        console.log("gid是："+this.$store.state.gid)
+        this.$router.push({ path: index });
+      }
+    }
+
+
+
+
+
+
   }
 }
 </script>
