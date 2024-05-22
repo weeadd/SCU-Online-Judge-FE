@@ -80,6 +80,7 @@ export default {
       });
     },
   },
+
   async mounted() {
     this.pid = this.$route.params.pid;
     this.gid = this.$store.state.gid;
