@@ -24,6 +24,7 @@ import contestProblem from '@/components/contest/contestProblem.vue'
 import userEdit from '@/components/user/edit/userEdit.vue'
 import finishSituation from '@/components/homework/finishSituation.vue'
 import arrangeHomework from '@/components/homework/arrangeHomework.vue'
+import doHomework from '@/components/homework/doHomework.vue'
 
 import userManage from "@/components/admin/userManage"
 
@@ -165,6 +166,13 @@ const router = createRouter({
             },
             path: '/homework/arrange', component: arrangeHomework,
         }, {
+        meta: {
+            title: '布置作业',
+            activeTitle: '/homework'
+        },
+        path: '/homework/do', component: doHomework,
+        },
+        {
         meta: {
             title: '用户设置',
             activeTitle: '/user'

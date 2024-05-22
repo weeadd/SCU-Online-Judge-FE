@@ -18,7 +18,7 @@
         {{ this.$store.state.gid === 2 ? '题库管理' : '题库' }}
       </el-menu-item>
 
-      <el-menu-item index="/contest" v-if="this.$store.state.gid === 1" @click="checkLogin('/contest')">
+      <el-menu-item index="/homework/do" v-if="this.$store.state.gid === 1" @click="checkLogin('/homework/do')">
         <el-icon>
           <Trophy />
         </el-icon>
@@ -147,7 +147,7 @@ export default {
     },
 
     checkLogin(index) {
-      if ((this.$store.state.gid === undefined || this.$store.state.gid === 0) && (index === "/contest" || index === "/rank" || index === "/problem" || index === "/submission")) {
+      if ((this.$store.state.gid === undefined || this.$store.state.gid === 0) && (index === "/homework/do" || index === "/rank" || index === "/problem" || index === "/submission")) {
         console.log("没有登录")
         this.$message({
           message: '请先登录',
