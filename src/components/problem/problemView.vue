@@ -74,6 +74,10 @@ export default {
   },
   methods: {
     submit() {
+      console.log(this.pid)
+      console.log(this.code)
+      console.log(this.language)
+
       axios.post('/api/judge/submit', {
         pid: this.pid,
         code: this.code,

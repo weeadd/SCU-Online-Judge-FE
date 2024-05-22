@@ -71,7 +71,7 @@ export default {
       return;
     }*/
     //store.state.uid = 1;
-    store.state.gid = 1;
+    store.state.gid = 2;
     console.log(store.state.gid)
   }
 }

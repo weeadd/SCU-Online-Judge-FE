@@ -10,30 +10,57 @@
       </el-icon>
       首页
     </el-menu-item>
-    <el-menu-item  index="/problem" @click="checkLogin('/problem')">
-      <el-icon>
-        <Files />
-      </el-icon>
-      题库
-    </el-menu-item>
-    <el-menu-item index="/contest" @click="checkLogin('/contest')">
-      <el-icon>
-        <Trophy />
-      </el-icon>
-      作业考试
-    </el-menu-item>
+
+      <el-menu-item index="/problem" @click="checkLogin('/problem')">
+        <el-icon>
+          <Files />
+        </el-icon>
+        {{ this.$store.state.gid === 2 ? '题库管理' : '题库' }}
+      </el-menu-item>
+
+      <el-menu-item index="/contest" v-if="this.$store.state.gid === 1" @click="checkLogin('/contest')">
+        <el-icon>
+          <Trophy />
+        </el-icon>
+        作业
+      </el-menu-item>
+
+    <el-sub-menu index="/homework" v-if="this.$store.state.gid === 2">
+      <template #title>
+        <el-icon>
+          <Trophy />
+        </el-icon>
+        作业管理
+      </template>
+      <el-menu-item index="/homework/finish">
+        <el-icon>
+          <UserFilled />
+        </el-icon>
+        完成情况
+      </el-menu-item>
+      <el-menu-item index="/homework/arrange">
+        <el-icon>
+          <Edit />
+        </el-icon>
+        布置作业
+      </el-menu-item>
+    </el-sub-menu>
+
+
     <el-menu-item  index="/rank" @click="checkLogin('/rank')">
       <el-icon>
         <Trophy />
       </el-icon>
       排行榜
     </el-menu-item>
+
     <el-menu-item  index="/submission" @click="checkLogin('/submission')">
       <el-icon>
         <DataAnalysis />
       </el-icon>
       提交记录
     </el-menu-item>
+
     <el-sub-menu index="/user" v-if="this.$store.state.gid">
       <template #title>
         <el-icon>
