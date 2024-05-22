@@ -14,6 +14,14 @@
 
     <el-col :xs="24" :sm="24" :md="12">
       <el-card class="box-card" shadow="hover">
+        <div>
+          <el-select v-model="language" placeholder="选择编程语言" style="width: 20%; color: black; margin-bottom: 16px;">
+            <el-option label="Java" value="java"></el-option>
+            <el-option label="C++" value="cpp"></el-option>
+            <el-option label="C" value="c"></el-option>
+            <el-option label="Python" value="python"></el-option>
+          </el-select>
+        </div>
 
         <div v-if="!isSubmit">
           <monacoEditor :value="code" @update:value="code = $event" />
@@ -40,6 +48,7 @@
     </el-col>
 
 
+
   </el-row>
 </template>
 
@@ -56,6 +65,7 @@ export default {
       gid: 1,
       problemInfo: {},
       code: '',
+      language:'',
       isSubmit: false
     }
   },
@@ -66,7 +76,9 @@ export default {
     submit() {
       axios.post('/api/judge/submit', {
         pid: this.pid,
-        code: this.code
+        code: this.code,
+        language: this.language
+
       }).then(res => {
         if (res.status === 200) {
           this.$router.push('/submission/' + res.data.sid);
