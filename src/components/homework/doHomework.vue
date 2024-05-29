@@ -36,14 +36,6 @@
           </div>
         </div>
 
-        <div style="text-align: center;">
-          <el-button v-if="this.gid > 1" type="danger" @click="this.$router.push('/problem/edit/' + problemInfo.pid)">
-            <el-icon class="el-icon--left">
-              <Operation />
-            </el-icon>
-            题目管理
-          </el-button>
-        </div>
       </el-card>
     </el-col>
 

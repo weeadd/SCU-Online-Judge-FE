@@ -36,6 +36,16 @@
     </div>
 
     <div class="input-group">
+      <el-date-picker
+          v-model="deadline"
+          type="datetime"
+          placeholder="截止时间选择"
+          style="width: 100%;"
+      ></el-date-picker>
+    </div>
+
+
+    <div class="input-group">
       <el-input
           v-model="problemInput"
           placeholder="请选择题目"
@@ -84,6 +94,7 @@ export default {
       detail: '',
       problem: '',
       problemInput: '请选择题目',
+      deadline: ''
     };
   },
   methods: {
@@ -100,7 +111,8 @@ export default {
         classInput: this.classInput,
         problemInput: this.problemInput,
         detail: this.detail,
-        name: this.name
+        name: this.name,
+        deadline: this.deadline
       }).then(res => {
         if (res.status === 200) {
           // 提交成功，弹出成功框
