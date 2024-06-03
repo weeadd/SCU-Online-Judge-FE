@@ -100,16 +100,17 @@ export default {
   async mounted() {
     this.pid = this.$route.params.pid;
     this.gid = this.$store.state.gid;
-    await axios.post('/api/problem/getProblemInfo', { pid: this.pid }).then(res => {
+    await axios.get(`/api/questionlist/${this.pid}`).then(res => {
       if (res.status === 200) {
-        this.problemInfo = res.data.data
-        this.problemInfo.isPublic = res.data.data.isPublic ? true : false;
+        this.problemInfo = res.data
+        // this.problemInfo.isPublic = res.isPublic ? true : false;
       }
       else {
         this.$router.push({ path: '/' });
       }
     });
     document.title = "题目 — " + this.problemInfo.title;
+    console.log(this.problemInfo)
   }
 }
 </script>
