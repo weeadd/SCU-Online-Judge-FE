@@ -47,7 +47,7 @@
     </el-sub-menu>
 
 
-    <el-menu-item  index="/rank" @click="checkLogin('/rank')">
+    <el-menu-item  index="/rank">
       <el-icon>
         <Trophy />
       </el-icon>
@@ -147,13 +147,13 @@ export default {
     },
 
     checkLogin(index) {
-      if ((this.$store.state.gid === undefined || this.$store.state.gid === 0) && (index === "/homework/do" || index === "/rank" || index === "/problem" || index === "/submission")) {
+      if ((this.$store.state.gid === undefined || this.$store.state.gid === 0) && (index === "/homework/do" || index === "/rank" || index === "/submission")) {
         console.log("没有登录")
         this.$message({
           message: '请先登录',
           type: 'warning'
         });
-        this.$router.push({ path: '/' }); // 重定向到首页
+        // this.$router.push({ path: '/' }); // 重定向到首页
       } else {
         console.log("进入了push")
         console.log("gid是："+this.$store.state.gid)

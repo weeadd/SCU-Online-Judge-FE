@@ -53,6 +53,8 @@ body {
   margin-top: 0;
   padding-right: 0 !important;
   overflow-y: overlay;
+  background-color: #F6F7F9
+;
 }
 
 .card-header,

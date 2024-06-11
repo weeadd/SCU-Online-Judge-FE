@@ -29,10 +29,10 @@
       </template>
       <el-table :data="problemList" height="600px" :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }" v-loading="!finished">
-        <el-table-column prop="question_id" label="#" width="100px" />
+        <el-table-column prop="question_id" label="题号" width="100px" />
         <el-table-column prop="title" label="标题" width="auto">
           <template #default="scope">
-            <span class="rlink" @click="this.$router.push('/problem/' + scope.row.title)">
+            <span class="rlink" @click="this.$router.push('/problem/' + scope.row.question_id)">
               {{ scope.row.title }}
             </span>
             <el-icon id="hidden" v-if="!scope.row.isPublic">
@@ -40,13 +40,13 @@
             </el-icon>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="AC/提交" width="150px">
-          <!-- <template #default="scope">
-            <span> {{ scope.row.acCnt }} / {{ scope.row.submitCnt }}</span>
-          </template> -->
+        <el-table-column prop="content" label="语言要求" width="150px">
+          <template #default="scope">
+            <span> {{ scope.row.language }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="samples" label="发布时间" width="200px" />
-        <el-table-column prop="language" label="出题人" width="120px">
+        <el-table-column prop="samples" label="提交次数" width="200px" />
+        <el-table-column prop="language" label="通过率" width="120px">
           <template #default="scope">
             <span class="rlink" @click="this.$router.push('/user/' + scope.row.publisherUid)">
               {{ scope.row.publisher }}

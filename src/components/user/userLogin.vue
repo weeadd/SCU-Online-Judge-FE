@@ -8,10 +8,10 @@
       </template>
       <el-form :model="userInfo">
         <el-form-item label="用户名" prop="name" style="margin-left: 15px">
-          <el-input v-model="userInfo.name" type="text" />
+          <el-input v-model="userInfo.username" type="text" />
         </el-form-item>
         <el-form-item label="密码" prop="pass" style="margin-left: 28px">
-          <el-input v-model="userInfo.pwd" type="password" @keyup.enter="submit" />
+          <el-input v-model="userInfo.password" type="password" @keyup.enter="submit" />
         </el-form-item>
         <el-button type="primary" @click="submit" style="width: 250px;">登录</el-button>
       </el-form>
@@ -32,16 +32,18 @@ export default {
   data() {
     return {
       userInfo: {
-        name: "",
-        pwd: "",
+        username: "",
+        password: "",
+        role: "student",
       },
     }
   },
   methods: {
     submit() {
-      axios.post('/api/user/login', {
-        name: this.userInfo.name,
-        pwd: this.userInfo.pwd,
+      axios.post('/api/auth/login', {
+        username: this.userInfo.username,
+        password: this.userInfo.password,
+        role: this.userInfo.role,
       }).then(res => {
         if (res.status === 200) {
           ElMessage({
@@ -49,6 +51,8 @@ export default {
             type: 'success',
             duration: 2000,
           });
+          // 存储JWT Token
+          localStorage.setItem('access_token', res.data.access_token);
           location.reload();
         } else {
           ElMessage({
