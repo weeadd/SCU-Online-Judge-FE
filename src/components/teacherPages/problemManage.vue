@@ -4,7 +4,7 @@
       <span style="font-size: large; font-weight: bold; color: #333;">题目列表</span>
       <el-button type="primary" @click="dialogVisible = true">新增题目</el-button>
     </div>
-    <el-table :data="tableData">
+    <el-table :data="currentData">
       <el-table-column prop="id" label="题目编号" width="100"></el-table-column>
       <el-table-column prop="title" label="标题" align="center"></el-table-column>
       <el-table-column prop="language" label="语言" width="100"></el-table-column>
@@ -21,6 +21,20 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="demo-pagination-block">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 50, 100]"
+        :small="small"
+        :disabled="disabled"
+        :background="background"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalItems"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </el-card>
   <el-dialog title="新增题目" v-model="dialogVisible">
     <el-form ref="form" :model="newProblem" label-width="120px">
@@ -53,22 +67,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import request from '../../utils/request.js'
 import { ElLoading, ElMessage } from "element-plus";
 
-const tableData = ref([
-  {
-    question_id: '1',
-    title: '求两数之和',
-    language: 'python',
-    submits: '234',
-    acRate: '78%',
-    createTime: '2024-06-01',
-    modifyTime: '2024-06-02'
-  },
+const currentPage = ref(1);
+const pageSize = ref(20);
+const totalItems = ref(0);
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
 
-]);
+const allData = ref([]);
+const tableData = ref([]);
+const currentData = computed(() => tableData.value);
 
 const dialogVisible = ref(false);
 const newProblem = ref({
@@ -101,14 +113,14 @@ const edit = (problem) => {
   dialogVisible.value = true;
 };
 
-const getProblems = async () => {
+const fetchAllProblems = async () => {
   const loadingInstance = ElLoading.service({
     fullscreen: true,
     text: "正在加载中...",
   });
   try {
     const response = await request.get('/questionlist');
-    tableData.value = response.map((item) => {
+    allData.value = response.map((item) => {
       return {
         id: item.question_id,
         title: item.title,
@@ -118,7 +130,9 @@ const getProblems = async () => {
         createTime: new Date().toLocaleDateString(),
         modifyTime: new Date().toLocaleDateString()
       };
-    })
+    });
+    totalItems.value = allData.value.length; // 计算总条目数
+    updateTableData();
   } catch (error) {
     ElMessage.error(error.message);
   } finally {
@@ -126,7 +140,32 @@ const getProblems = async () => {
   }
 };
 
+const updateTableData = () => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  tableData.value = allData.value.slice(start, end);
+};
+
+const handleSizeChange = (val) => {
+  pageSize.value = val;
+  updateTableData();
+};
+
+const handleCurrentChange = (val) => {
+  currentPage.value = val;
+  updateTableData();
+};
+
 onMounted(() => {
-  getProblems();
+  fetchAllProblems();
 });
 </script>
+<style scoped>
+
+.demo-pagination-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+</style>
